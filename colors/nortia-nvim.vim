@@ -6,7 +6,7 @@ let g:colors_name="nortia-nvim"
 " which means the require ahead will *always* occur.
 "
 " This isn't strictly required but it can be a useful trick if you are
-" incrementally editing your confit a lot and want to be sure your themes
+" incrementally editing your config a lot and want to be sure your themes
 " changes are being picked up without restarting neovim.
 "
 " Note if you're working in on your theme and have lush.ify'd the buffer,
@@ -18,14 +18,16 @@ lua require('lush')(require('lush_theme.nortia-nvim'))
 lua << EOF
   local bang
   bang = function()
-    -- clear lua's cache so our module gets to run again
-    package.loaded['lush_theme.nortia-nvim'] = nil
+    if vim.g.colors_name == "nortia-nvim" then
+        -- clear lua's cache so our module gets to run again
+        package.loaded['lush_theme.nortia-nvim'] = nil
 
-    -- pass our theme to lush to apply
-    require('lush')(require('lush_theme.nortia-nvim'))
+        -- pass our theme to lush to apply
+        require('lush')(require('lush_theme.nortia-nvim'))
 
-    -- setup re-call
-    vim.defer_fn(bang, 500)
+        -- setup re-call
+        vim.defer_fn(bang, 1000)
+    end
   end
-  vim.defer_fn(bang, 500)
+  vim.defer_fn(bang, 1000)
 EOF

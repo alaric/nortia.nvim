@@ -13,104 +13,151 @@
 --  "Y8P"  "Y888888P'"Y88P"`Y8P' "YY8P8P88P     `Y8
 --
 
--- This is a starter colorscheme for use with Lush,
--- for usage guides, see the README and the contents of the `examples` folder.
-
---
--- Note: Because this is lua file, vim will append your file to the runtime,
---       which means you can require(...) it in other lua code (this is useful),
---       but you should also take care not to conflict with other libraries.
---
---       (This is a lua quirk, as it has somewhat poor support for namespacing.)
---
---       Basically, name your file,
---
---       "super_theme/lua/lush_theme/super_theme_dark.lua",
---
---       not,
---
---       "super_theme/lua/dark.lua".
---
---       With that caveat out of the way...
---
-
--- Enable lush.ify on this file, run:
---
---  `:Lushify`
---
---  or
---
---  `:lua require('lush').ify()`
-
 local lush = require('lush')
 local hsl = lush.hsl
+local nortia = require('nortia.theme')
+
+function fg_offset (colour, amount)
+    if nortia.is_dark() then
+        return colour.darken(amount)
+    else
+        return colour.lighten(amount)
+    end
+end
+
+function bg_offset (colour, amount)
+    if nortia.is_dark() then
+        return colour.lighten(amount)
+    else
+        return colour.darken(amount)
+    end
+end
+
+local fg_offset = fg_offset
+local bg_offset = bg_offset
+local g = vim.g
+
+function good(colour)
+    return colour.hue(115).saturate(30)
+end
+
+function bad(colour)
+    return colour.hue(0).saturate(30)
+end
+
+function warn(colour)
+    return colour.hue(30).saturate(30)
+end
+
+function neutral(colour)
+    return colour.hue(59).saturate(30)
+end
+
+local get_hour = get_hour
+local bg_colour = bg_colour
+local fg_colour = fg_colour
+local good = good
+local bad = bad
+local warn = warn
+local neutral = neutral
+local base = base
 
 local theme = lush(function()
   return {
-    -- The following are all the Neovim default highlight groups from
-    -- docs as of 0.5.0-812, to aid your theme creation. Your themes should
-    -- probably style all of these at a bare minimum.
-    --
-    -- Referenced/linked groups must come before being referenced/lined,
-    -- so the order shown ((mostly) alphabetical) is likely
-    -- not the order you will end up with.
-    --
-    -- You can uncomment these and leave them empty to disable any
-    -- styling for that group (meaning they mostly get styled as Normal)
-    -- or leave them commented to apply vims default colouring or linking.
+    Black { fg = hsl(0, 0, 0) },
+    White { fg = hsl(0, 0, 100) },
+    Green { fg = hsl("#00ff00") },
+    Blue { fg = hsl("#0000ff") },
+    Red { fg = hsl("#ff0000") },
 
-    -- ColorColumn  { }, -- used for the columns set with 'colorcolumn'
+    Fore1 { fg = hsl(0, 0, nortia.fg_colour()) },
+    Fore2 { fg = fg_offset(Fore1.fg, 10) },
+    Fore3 { fg = fg_offset(Fore2.fg, 10) },
+    Fore4 { fg = fg_offset(Fore3.fg, 10) },
+    Fore5 { fg = fg_offset(Fore4.fg, 10) },
+    
+    Back1 { bg = hsl(0, 0, nortia.bg_colour()) },
+    Back2 { bg = bg_offset(Back1.bg, 3) },
+    Back3 { bg = bg_offset(Back2.bg, 3) },
+    Back4 { bg = bg_offset(Back3.bg, 3) },
+    Back5 { bg = bg_offset(Back4.bg, 3) },
+
+    Good { fg = good(Fore3.fg), bg = good(Back3.bg) },
+    Bad { fg = bad(Fore3.fg), bg = bad(Back3.bg) },
+    Neutral { fg = neutral(Fore3.fg), bg = neutral(Back3.bg) },
+    Warn { fg = warn(Fore3.fg), bg = warn(Back3.bg) },
+
+    Highlighter { fg = Black1.fg, bg = hsl("#fcf7bb") },
+
+    OrigPalette1 { bg = hsl("#fcf7bb") },
+    OrigPalette2 { fg = hsl("#f6d186") },
+    OrigPalette3 { fg = hsl("#2faceb") },
+    OrigPalette4 { fg = hsl("#d4673f") },
+    OrigPalette5 { fg = hsl("#cbe2b0") },
+    OrigPalette6 { fg = hsl("#cbe2b0") },
+    OrigPalette7 { fg = hsl("#eBc73E") },
+
+    --Palette1 { fg = hsl(nortia.palette()) },
+    Palette1 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, -10) end)) },
+    Palette2 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, -45) end)) },
+    Palette3 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, 30) end)) },
+    Palette4 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, -75) end)) },
+    Palette5 { fg =  hsl(nortia.palette(function (x) return nortia.rotate(x, 150) end)) },
+    Palette6 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, 190) end)) },
+
+    Normal       { fg = Fore1.fg, bg = Back1.bg }, -- normal text
+    NormalFloat  { fg = Normal.fg }, -- Normal text in floating windows.
+    NormalNC     { fg = Normal.fg }, -- normal text in non-current windows
+    Comment { fg = Fore4.fg },
+    ColorColumn  { fg = Fore1.fg, bg = Back1.bg.hue(0).saturation(20).lighten(10) }, -- TODO used for the columns set with 'colorcolumn'
     -- Conceal      { }, -- placeholder characters substituted for concealed text (see 'conceallevel')
     -- Cursor       { }, -- character under the cursor
     -- lCursor      { }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
     -- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
-    -- CursorColumn { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-    -- CursorLine   { }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
-    -- Directory    { }, -- directory names (and other special names in listings)
-    -- DiffAdd      { }, -- diff mode: Added line |diff.txt|
-    -- DiffChange   { }, -- diff mode: Changed line |diff.txt|
-    -- DiffDelete   { }, -- diff mode: Deleted line |diff.txt|
-    -- DiffText     { }, -- diff mode: Changed text within a changed line |diff.txt|
-    -- EndOfBuffer  { }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
+    CursorColumn { bg = Back2.bg }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
+    CursorLine   { bg = Back2.bg }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
+    Directory    { fg = Palette5.fg }, -- directory names (and other special names in listings)
+    DiffAdd      { fg = Good.fg, bg = Good.bg }, -- diff mode: Added line |diff.txt|
+    DiffChange   { fg = Neutral.fg, bg = Neutral.bg }, -- diff mode: Changed line |diff.txt|
+    DiffDelete   { fg = Bad.fg, bg = Bad.bg }, -- diff mode: Deleted line |diff.txt| 
+    DiffText     { fg = Warn.fg, bg = Warn.bg }, -- diff mode: Changed text within a changed line |diff.txt|
+    EndOfBuffer  { fg = Back1.bg, bg = Back1.bg }, -- filler lines (~) after the end of the buffer.   By default, this is highlighted like |hl-NonText|.
     -- TermCursor   { }, -- cursor in a focused terminal
     -- TermCursorNC { }, -- cursor in an unfocused terminal
     -- ErrorMsg     { }, -- error messages on the command line
-    -- VertSplit    { }, -- the column separating vertically split windows
-    -- Folded       { }, -- line used for closed folds
-    -- FoldColumn   { }, -- 'foldcolumn'
-    -- SignColumn   { }, -- column where |signs| are displayed
-    -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
-    -- Substitute   { }, -- |:substitute| replacement text highlighting
-    -- LineNr       { }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-    -- CursorLineNr { }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-    -- MatchParen   { }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+    VertSplit    { fg = Back5.bg, bg = Back1.bg }, -- the column separating vertically split windows
+    Folded       { fg = Fore2.fg, bg = Back2.bg }, -- line used for closed folds
+    FoldColumn   { fg = Fore4.fg, bg = Back2.bg }, -- 'foldcolumn'
+    SignColumn   { fg = Fore4.fg, bg = Back2.bg }, -- column where |signs| are displayed
+    IncSearch    { fg = DiffChange.fg, bg = DiffChange.bg }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+    Substitute   { fg = DiffAdd.fg, bg = DiffAdd.bg }, -- |:substitute| replacement text highlighting
+    LineNr       { fg = Fore4.fg, bg = Back2.bg }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+    CursorLineNr { fg = Palette1.fg, bg = Back3.bg }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+    MatchParen   { fg = Back1.bg, bg = Palette5.fg }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     -- ModeMsg      { }, -- 'showmode' message (e.g., "-- INSERT -- ")
     -- MsgArea      { }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
     -- MoreMsg      { }, -- |more-prompt|
-    -- NonText      { }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-    -- Normal       { }, -- normal text
-    -- NormalFloat  { }, -- Normal text in floating windows.
-    -- NormalNC     { }, -- normal text in non-current windows
-    -- Pmenu        { }, -- Popup menu: normal item.
-    -- PmenuSel     { }, -- Popup menu: selected item.
-    -- PmenuSbar    { }, -- Popup menu: scrollbar.
-    -- PmenuThumb   { }, -- Popup menu: Thumb of the scrollbar.
+    NonText      { }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+    Pmenu        { fg = Fore1.fg, bg = Back3.bg }, -- TODO blend Popup menu: normal item.
+    PmenuSel     { fg = Fore1.fg, bg = Back4.bg }, -- TODO blend Popup menu: selected item.
+    PmenuSbar    { fg = Pmenu.fg, bg = Pmenu.bg }, -- TODO blend Popup menu: scrollbar.
+    PmenuThumb   { fg = Pmenu.fg, bg = Pmenu.bg }, -- TODO blend Popup menu: Thumb of the scrollbar.
     -- Question     { }, -- |hit-enter| prompt and yes/no questions
-    -- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
-    -- Search       { }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
+    QuickFixLine { bg = CursorLine.bg }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
+    Search       { fg = Black.fg, bg = Highlighter.bg }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
     -- SpecialKey   { }, -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace| SpellBad  Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.  SpellCap  Word that should start with a capital. |spell| Combined with the highlighting used otherwise.  SpellLocal  Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
     -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
     -- StatusLine   { }, -- status line of current window
     -- StatusLineNC { }, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
-    -- TabLine      { }, -- tab pages line, not active tab page label
-    -- TabLineFill  { }, -- tab pages line, where there are no labels
-    -- TabLineSel   { }, -- tab pages line, active tab page label
-    -- Title        { }, -- titles for output from ":set all", ":autocmd" etc.
-    -- Visual       { }, -- Visual mode selection
+    TabLine      { bg = Back3.bg }, -- tab pages line, not active tab page label
+    TabLineFill  { fg = Back4.bg }, -- tab pages line, where there are no labels
+    TabLineSel   { fg = Back1.bg, bg = Palette1.fg }, -- tab pages line, active tab page label
+    Title        { gui = "bold" }, -- titles for output from ":set all", ":autocmd" etc.
+    Visual       { bg = Back3.bg }, -- Visual mode selection
     -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
-    -- WarningMsg   { }, -- warning messages
-    -- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
+    WarningMsg   { fg = Warn.fg, bg = Warn.bg }, -- warning messages
+    Whitespace   { bg = Back4.bg }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
     -- WildMenu     { }, -- current match in 'wildmenu' completion
 
     -- These groups are not listed as default vim groups,
@@ -119,68 +166,61 @@ local theme = lush(function()
     -- default,
     -- Uncomment and edit if you want more specific syntax highlighting.
 
-    -- Constant       { }, -- (preferred) any constant
-    -- String         { }, --   a string constant: "this is a string"
+    Constant       { fg = Palette5.fg }, -- (preferred) any constant
+    String         { fg = Palette3.fg }, --   a string constant: "this is a string"
     -- Character      { }, --  a character constant: 'c', '\n'
     -- Number         { }, --   a number constant: 234, 0xff
     -- Boolean        { }, --  a boolean constant: TRUE, false
     -- Float          { }, --    a floating point constant: 2.3e10
 
-    -- Identifier     { }, -- (preferred) any variable name
-    -- Function       { }, -- function name (also: methods for classes)
+    Identifier     { fg = Fore2.fg }, -- (preferred) any variable name
+    Function       { fg = Palette1.fg }, -- function name (also: methods for classes)
 
-    -- Statement      { }, -- (preferred) any statement
+    Statement      { fg = Palette2.fg }, -- (preferred) any statement
     -- Conditional    { }, --  if, then, else, endif, switch, etc.
     -- Repeat         { }, --   for, do, while, etc.
     -- Label          { }, --    case, default, etc.
-    -- Operator       { }, -- "sizeof", "+", "*", etc.
-    -- Keyword        { }, --  any other keyword
     -- Exception      { }, --  try, catch, throw
 
-    -- PreProc        { }, -- (preferred) generic Preprocessor
+    Keyword        { fg = Palette6.fg }, --  any other keyword
+
+    Operator       { fg = Fore1.fg }, -- "sizeof", "+", "*", etc.
+
+    PreProc        { fg = Palette4.fg }, -- (preferred) generic Preprocessor
     -- Include        { }, --  preprocessor #include
     -- Define         { }, --   preprocessor #define
     -- Macro          { }, --    same as Define
     -- PreCondit      { }, --  preprocessor #if, #else, #endif, etc.
 
-    -- Type           { }, -- (preferred) int, long, char, etc.
+    Type           { fg = Palette1.fg }, -- (preferred) int, long, char, etc.
     -- StorageClass   { }, -- static, register, volatile, etc.
     -- Structure      { }, --  struct, union, enum, etc.
     -- Typedef        { }, --  A typedef
 
-    -- Special        { }, -- (preferred) any special symbol
+    Special        { fg = Palette5.fg }, -- (preferred) any special symbol
     -- SpecialChar    { }, --  special character in a constant
     -- Tag            { }, --    you can use CTRL-] on this
-    -- Delimiter      { }, --  character that needs attention
-    -- SpecialComment { }, -- special things inside a comment
+    Delimiter      { fg = Fore2.fg }, --  character that needs attention
+    SpecialComment { fg = Fore3.fg }, -- special things inside a comment
     -- Debug          { }, --    debugging statements
 
-    -- Underlined { gui = "underline" }, -- (preferred) text that stands out, HTML links
-    -- Bold       { gui = "bold" },
-    -- Italic     { gui = "italic" },
+    Underlined { gui = "underline" }, -- (preferred) text that stands out, HTML links
+    Bold       { gui = "bold" },
+    Italic     { gui = "italic" },
 
     -- ("Ignore", below, may be invisible...)
     -- Ignore         { }, -- (preferred) left blank, hidden  |hl-Ignore|
 
-    -- Error          { }, -- (preferred) any erroneous construct
-
-    -- Todo           { }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+    Error          { fg = Bad.fg, bg = Bad.bg }, -- (preferred) any erroneous construct
+    Todo           { fg = Black.fg, bg = Highlighter.bg }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 
     -- These groups are for the native LSP client. Some other LSP clients may use
     -- these groups, or use their own. Consult your LSP client's documentation.
 
-    -- LspDiagnosticsError               { }, -- used for "Error" diagnostic virtual text
-    -- LspDiagnosticsErrorSign           { }, -- used for "Error" diagnostic signs in sign column
-    -- LspDiagnosticsErrorFloating       { }, -- used for "Error" diagnostic messages in the diagnostics float
-    -- LspDiagnosticsWarning             { }, -- used for "Warning" diagnostic virtual text
-    -- LspDiagnosticsWarningSign         { }, -- used for "Warning" diagnostic signs in sign column
-    -- LspDiagnosticsWarningFloating     { }, -- used for "Warning" diagnostic messages in the diagnostics float
-    -- LspDiagnosticsInformation         { }, -- used for "Information" diagnostic virtual text
-    -- LspDiagnosticsInformationSign     { }, -- used for "Information" signs in sign column
-    -- LspDiagnosticsInformationFloating { }, -- used for "Information" diagnostic messages in the diagnostics float
-    -- LspDiagnosticsHint                { }, -- used for "Hint" diagnostic virtual text
-    -- LspDiagnosticsHintSign            { }, -- used for "Hint" diagnostic signs in sign column
-    -- LspDiagnosticsHintFloating        { }, -- used for "Hint" diagnostic messages in the diagnostics float
+    LspDiagnosticsDefaultError               { fg = Bad.fg, bg = Bad.bg }, -- used for "Error" diagnostic virtual text
+    LspDiagnosticsDefaultWarning             { fg = Warn.fg, bg = Warn.bg }, -- used for "Warning" diagnostic virtual text
+    LspDiagnosticsDefaultInformation         { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Information" diagnostic virtual text
+    -- LspDiagnosticsDefaultHint                { }, -- used for "Hint" diagnostic virtual text
     -- LspReferenceText                  { }, -- used for highlighting "text" references
     -- LspReferenceRead                  { }, -- used for highlighting "read" references
     -- LspReferenceWrite                 { }, -- used for highlighting "write" references
@@ -191,7 +231,7 @@ local theme = lush(function()
     -- TSError -> Error for example, so you do not have to define these unless
     -- you explicitly want to support Treesitter's improved syntax awareness.
 
-    -- TSError              { }, -- For syntax/parser errors.
+    TSError              { fg = Error.fg, bg = Error.bg }, -- For syntax/parser errors.
     -- TSPunctDelimiter     { }, -- For delimiters ie: `.`
     -- TSPunctBracket       { }, -- For brackets and parens.
     -- TSPunctSpecial       { }, -- For special punctutation that does not fall in the catagories before.
@@ -235,6 +275,13 @@ local theme = lush(function()
     -- TSURI                { }, -- Any URI like a link or email.
     -- TSVariable           { }, -- Any variable name that does not have another highlight.
     -- TSVariableBuiltin    { }, -- Variable names that are defined by the languages, like `this` or `self`.
+
+    GitGutterAddLineNr { fg = Good.fg, bg = Good.bg },
+    GitGutterDeleteLineNr { fg = Bad.fg, bg = Bad.bg },
+    GitGutterAdd { fg = Good.fg, bg = Good.bg },
+    GitGutterDelete { fg = Bad.fg, bg = Bad.bg },
+    GitGutterChange { fg = Neutral.fg, bg = Neutral.bg },
+
   }
 end)
 
