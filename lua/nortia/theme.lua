@@ -14,6 +14,8 @@ local fg_colours = { 84, 84, 88, 88, 84, 84, 84, 84, 35, 35, 35, 35,
                      35, 35, 35, 35, 84, 84, 84, 84, 84, 84, 80, 80 }
 
 local override_hour = -1
+local current_hour = -2
+local override_base = { r = 255, g = 189, b = 60 }
 local contrast_threshold = 2.5
 
 local function get_hour()
@@ -24,12 +26,24 @@ local function get_hour()
     return hour
 end
 
+local function gate()
+    local now = get_hour()
+    if now ~= current_hour then
+        current_hour = now
+        return true
+    else
+        return false
+    end
+end
+
 local function set_hour(h)
     override_hour = h
+    current_hour = -2
 end
 
 local function set_contrast_threshold(t)
     contrast_threshold = t
+    current_hour = -2
 end
 
 local function is_dark()
@@ -45,7 +59,12 @@ local function fg_colour()
 end
 
 local function base()
-    return oklab.rgb_to_polar({ r=235, g=199, b=62 })
+    return oklab.rgb_to_polar(override_base)
+end
+
+local function set_base(r, g, b)
+    override_base = { r = r, g = g, b = b}
+    current_hour = -2
 end
 
 local function bg_base()
@@ -122,6 +141,7 @@ local function test()
     print(vim.inspect(palette(nil)))
     print(vim.inspect(w3c_contrast(fg_base(), bg_base())))
     print(vim.inspect(w3c_contrast(base(), bg_base())))
+    print(vim.inspect(palette(function (x) return oklab.rotate(x, -10) end)))
 end
 
 return {
@@ -132,7 +152,9 @@ return {
     bg_colour = bg_colour,
     is_dark = is_dark,
     base = base,
+    set_base = set_base,
     palette = palette,
     set_contrast_threshold = set_contrast_threshold,
     test = test,
+    gate = gate,
 }

@@ -98,7 +98,7 @@ local theme = lush(function()
     OrigPalette7 { fg = hsl("#eBc73E") },
 
     --Palette1 { fg = hsl(nortia.palette()) },
-    Palette1 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, -10) end)) },
+    Palette1 { fg = hsl(nortia.palette()) },
     Palette2 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, -45) end)) },
     Palette3 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, 30) end)) },
     Palette4 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, -75) end)) },
@@ -167,11 +167,12 @@ local theme = lush(function()
     -- Uncomment and edit if you want more specific syntax highlighting.
 
     Constant       { fg = Palette5.fg }, -- (preferred) any constant
-    String         { fg = Palette3.fg }, --   a string constant: "this is a string"
     -- Character      { }, --  a character constant: 'c', '\n'
     -- Number         { }, --   a number constant: 234, 0xff
     -- Boolean        { }, --  a boolean constant: TRUE, false
     -- Float          { }, --    a floating point constant: 2.3e10
+
+    String         { fg = Palette3.fg }, --   a string constant: "this is a string"
 
     Identifier     { fg = Fore2.fg }, -- (preferred) any variable name
     Function       { fg = Palette1.fg }, -- function name (also: methods for classes)
@@ -200,9 +201,10 @@ local theme = lush(function()
     Special        { fg = Palette5.fg }, -- (preferred) any special symbol
     -- SpecialChar    { }, --  special character in a constant
     -- Tag            { }, --    you can use CTRL-] on this
+    -- Debug          { }, --    debugging statements
+
     Delimiter      { fg = Fore2.fg }, --  character that needs attention
     SpecialComment { fg = Fore3.fg }, -- special things inside a comment
-    -- Debug          { }, --    debugging statements
 
     Underlined { gui = "underline" }, -- (preferred) text that stands out, HTML links
     Bold       { gui = "bold" },

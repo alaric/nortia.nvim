@@ -19,15 +19,31 @@ lua << EOF
   local bang
   bang = function()
     if vim.g.colors_name == "nortia-nvim" then
-        -- clear lua's cache so our module gets to run again
-        package.loaded['lush_theme.nortia-nvim'] = nil
 
-        -- pass our theme to lush to apply
-        require('lush')(require('lush_theme.nortia-nvim'))
+        local nortia = require('nortia.theme')
+
+        if nortia.gate() then
+            -- clear lua's cache so our module gets to run again
+            package.loaded['lush_theme.nortia-nvim'] = nil
+
+            -- pass our theme to lush to apply
+            require('lush')(require('lush_theme.nortia-nvim'))
+
+            if vim.g.airline_theme ~= "" then
+                vim.call("airline#load_theme")
+            end
+
+            if nortia.is_dark() then
+                vim.api.nvim_exec("let $BAT_THEME = g:nortia_bat_dark_theme", false)
+            else
+                vim.api.nvim_exec("let $BAT_THEME = g:nortia_bat_light_theme", false)
+            end
+
+        end
 
         -- setup re-call
         vim.defer_fn(bang, 1000)
     end
   end
-  vim.defer_fn(bang, 1000)
+  vim.defer_fn(bang, 100)
 EOF
