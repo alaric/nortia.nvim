@@ -16,6 +16,8 @@ local fg_colours = { 84, 84, 88, 88, 84, 84, 84, 84, 35, 35, 35, 35,
 local override_hour = -1
 local current_hour = -2
 local override_base = { r = 255, g = 189, b = 60 }
+local override_tint_fg = { h = 0, C = 0 }
+local override_tint_bg = { h = 0, C = 0 }
 local contrast_threshold = 2.5
 
 local function get_hour()
@@ -72,7 +74,10 @@ local function bg_base()
     local r = oklab.round_clamped(grey, 0, 255)
     local g = oklab.round_clamped(grey, 0, 255)
     local b = oklab.round_clamped(grey, 0, 255)
-    return oklab.rgb_to_polar({ r=r, g=g, b=b })
+    local col = oklab.rgb_to_polar({ r=r, g=g, b=b })
+    col.h = override_tint_bg.h
+    col.C = override_tint_bg.C
+    return col
 end
 
 local function fg_base()
@@ -80,7 +85,25 @@ local function fg_base()
     local r = oklab.round_clamped(grey, 0, 255)
     local g = oklab.round_clamped(grey, 0, 255)
     local b = oklab.round_clamped(grey, 0, 255)
-    return oklab.rgb_to_polar({ r=r, g=g, b=b })
+    local col = oklab.rgb_to_polar({ r=r, g=g, b=b })
+    col.h = override_tint_fg.h
+    col.C = override_tint_fg.C
+    return col
+end
+
+local function tint_fg(h, C)
+    override_tint_fg = { h = ((h / 360.0) * 2 * math.pi), C = C }
+    current_hour = -2
+end
+
+local function tint_bg(h, C)
+    override_tint_bg = { h = ((h / 360.0) * 2 * math.pi), C = C }
+    current_hour = -2
+end
+
+local function tint(h, C)
+    tint_bg(h, C)
+    tint_fg(h, C)
 end
 
 local function w3c_luminence_int(c)
@@ -133,6 +156,13 @@ local function palette(f)
     return oklab.polar_to_hex(c)
 end
 
+local function fg()
+    return oklab.polar_to_hex(fg_base())
+end
+
+local function bg()
+    return oklab.polar_to_hex(bg_base())
+end
 
 local function test()
     print(vim.inspect(base()))
@@ -157,4 +187,9 @@ return {
     set_contrast_threshold = set_contrast_threshold,
     test = test,
     gate = gate,
+    fg = fg,
+    bg = bg,
+    tint = tint,
+    tint_fg = tint_fg,
+    tint_bg = tint_bg,
 }

@@ -2,13 +2,13 @@
 
 _This is neovim only, this will not work with legacy vim_
 
-Nortia is designed as a very configurable colour scheme, which by default
-changes colour during the day. In daylight hours it's a light colourscheme with
-configurable contrast, and at night it's a dark colourscheme. I built this
-because I found myself preferring a light colourscheme when my office was
-bright, but it was too jarring when in lower light conditions. Since using this
-for a while, as it changes on the hour, it's also useful for keeping track of
-the time. The colourscheme is made with
+Nortia is designed as a configurable and dynamic colour scheme, which by
+default changes colour during the day. In daylight hours it's a light
+colourscheme with configurable contrast, and at night it's a dark colourscheme.
+I built this because I found myself preferring a light colourscheme when my
+office was bright, but it was too jarring when in lower light conditions. Since
+using this for a while, as it changes on the hour, it's also useful for keeping
+track of the time. The colourscheme is made with
 [lush.nvim](https://github.com/rktjmp/lush.nvim) as the base, and uses the
 [Oklab](https://bottosson.github.io/posts/oklab/#the-oklab-color-space)
 perceptual colour space in order to determine some complementary colours for
@@ -61,9 +61,28 @@ If the default threshold is not sufficient for you, the contrast threshold can b
 :lua require('nortia.theme').set_contrast_threshold(3.5)
 ```
 
-## Red and Blue Shifts
+## Tinting
+
+This allows the foreground or background or both to be tinted with a colour for
+those who prefer a slightly coloured rather than greyscale bg/fg.
+
+```
+:lua require('nortia.theme').tint_bg(190, 0.1)
+:lua require('nortia.theme').tint_fg(190, 0.1)
+:lua require('nortia.theme').tint(190, 0.1)
+```
+
+The first parameter is the 0-360 hue in degress, the second is the chroma from
+Oklab. The lightness is derived from the hour of the day.
 
 ## Changing the Base
+
+```
+:lua require('nortia.theme').set_base(255, 189, 60)
+```
+
+This sets the base to the default value, but the `r, g, b` parameters can be
+customised to set a base colour for the theme.
 
 ## Integration with `bat`
 

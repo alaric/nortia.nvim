@@ -70,13 +70,13 @@ local theme = lush(function()
     Blue { fg = hsl("#0000ff") },
     Red { fg = hsl("#ff0000") },
 
-    Fore1 { fg = hsl(0, 0, nortia.fg_colour()) },
+    Fore1 { fg = hsl(nortia.fg()) },
     Fore2 { fg = fg_offset(Fore1.fg, 10) },
     Fore3 { fg = fg_offset(Fore2.fg, 10) },
     Fore4 { fg = fg_offset(Fore3.fg, 10) },
     Fore5 { fg = fg_offset(Fore4.fg, 10) },
     
-    Back1 { bg = hsl(0, 0, nortia.bg_colour()) },
+    Back1 { bg = hsl(nortia.bg()) },
     Back2 { bg = bg_offset(Back1.bg, 3) },
     Back3 { bg = bg_offset(Back2.bg, 3) },
     Back4 { bg = bg_offset(Back3.bg, 3) },
@@ -97,7 +97,6 @@ local theme = lush(function()
     OrigPalette6 { fg = hsl("#cbe2b0") },
     OrigPalette7 { fg = hsl("#eBc73E") },
 
-    --Palette1 { fg = hsl(nortia.palette()) },
     Palette1 { fg = hsl(nortia.palette()) },
     Palette2 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, -45) end)) },
     Palette3 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, 30) end)) },
