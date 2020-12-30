@@ -2,6 +2,12 @@
 
 _This is neovim only, this will not work with legacy vim_
 
+## Preview
+
+<img width="300" alt="thumbnail-nortia-light" src="https://user-images.githubusercontent.com/311857/103355173-8963a400-4aa5-11eb-9b16-56bad2959efb.png"><img width="300" alt="thumbnail-nortia-middle" src="https://user-images.githubusercontent.com/311857/103355232-a8facc80-4aa5-11eb-9781-b267f5889193.png"><img width="300" alt="thumbnail-nortia-dark" src="https://user-images.githubusercontent.com/311857/103355238-adbf8080-4aa5-11eb-8a84-6b130acae5af.png">
+
+## What is it
+
 Nortia is designed as a configurable and dynamic colour scheme, which by
 default changes colour during the day. In daylight hours it's a light
 colourscheme with configurable contrast, and at night it's a dark colourscheme.
@@ -75,14 +81,29 @@ those who prefer a slightly coloured rather than greyscale bg/fg.
 The first parameter is the 0-360 hue in degress, the second is the chroma from
 Oklab. The lightness is derived from the hour of the day.
 
+<img width="300" alt="thumbnail-nortia-redshift" src="https://user-images.githubusercontent.com/311857/103355250-b617bb80-4aa5-11eb-92f1-d0cabb51c16d.png">
+
+```:lua require('nortia.theme').tint_bg(0, 0.05)```
+
+<img width="300" alt="thumbnail-nortia-blueshift" src="https://user-images.githubusercontent.com/311857/103355253-b9ab4280-4aa5-11eb-8742-045181db19e2.png">
+
+```:lua require('nortia.theme').tint_bg(190, 0.1)```
+
 ## Changing the Base
 
 ```
-:lua require('nortia.theme').set_base(255, 189, 60)
+:lua require('nortia.theme').set_base(r, g, b)
 ```
 
-This sets the base to the default value, but the `r, g, b` parameters can be
-customised to set a base colour for the theme.
+This sets the base colour with the `r, g, b` parameters (0-255), the default
+value is `255, 189, 60` if you want to return to normal.
+
+<img width="300" alt="thumbnail-nortia-basechanged" src="https://user-images.githubusercontent.com/311857/103355265-bf088d00-4aa5-11eb-9dfe-686762cbf01a.png">
+
+The above preview was generated with:
+```
+:lua require('nortia.theme').set_base(235, 84, 84)
+```
 
 ## Integration with `bat`
 
@@ -92,4 +113,10 @@ bat theme as the Nortia theme changes from light to dark through the day.
 
 - `g:nortia_bat_light_theme`: Set as light background bat theme
 - `g:nortia_bat_dark_theme`: Set as dark background bat theme
+
+## Status
+
+The base of the colour scheme is complete in terms of functionality, but it
+still needs some tweaking for TreeSitter and different language
+syntaxes/plugins. This might lead to some colours in the palette still changing.
 
