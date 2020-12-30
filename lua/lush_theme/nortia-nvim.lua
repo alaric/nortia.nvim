@@ -89,14 +89,6 @@ local theme = lush(function()
 
     Highlighter { fg = Black1.fg, bg = hsl("#fcf7bb") },
 
-    OrigPalette1 { bg = hsl("#fcf7bb") },
-    OrigPalette2 { fg = hsl("#f6d186") },
-    OrigPalette3 { fg = hsl("#2faceb") },
-    OrigPalette4 { fg = hsl("#d4673f") },
-    OrigPalette5 { fg = hsl("#cbe2b0") },
-    OrigPalette6 { fg = hsl("#cbe2b0") },
-    OrigPalette7 { fg = hsl("#eBc73E") },
-
     Palette1 { fg = hsl(nortia.palette()) },
     Palette2 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, -45) end)) },
     Palette3 { fg = hsl(nortia.palette(function (x) return nortia.rotate(x, 30) end)) },
@@ -132,7 +124,7 @@ local theme = lush(function()
     Substitute   { fg = DiffAdd.fg, bg = DiffAdd.bg }, -- |:substitute| replacement text highlighting
     LineNr       { fg = Fore4.fg, bg = Back2.bg }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
     CursorLineNr { fg = Palette1.fg, bg = Back3.bg }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-    MatchParen   { fg = Back1.bg, bg = Palette5.fg }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+    -- MatchParen   { fg = Palette2.fg }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     -- ModeMsg      { }, -- 'showmode' message (e.g., "-- INSERT -- ")
     -- MsgArea      { }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
