@@ -4,7 +4,7 @@ _This is neovim only, this will not work with legacy vim_
 
 ## Preview
 
-<img width="300" alt="thumbnail-nortia-light" src="https://user-images.githubusercontent.com/311857/103355173-8963a400-4aa5-11eb-9b16-56bad2959efb.png"><img width="300" alt="thumbnail-nortia-middle" src="https://user-images.githubusercontent.com/311857/103355232-a8facc80-4aa5-11eb-9781-b267f5889193.png"><img width="300" alt="thumbnail-nortia-dark" src="https://user-images.githubusercontent.com/311857/103355238-adbf8080-4aa5-11eb-8a84-6b130acae5af.png">
+<img width="280" alt="thumbnail-nortia-light" src="https://user-images.githubusercontent.com/311857/103355173-8963a400-4aa5-11eb-9b16-56bad2959efb.png"><img width="280" alt="thumbnail-nortia-middle" src="https://user-images.githubusercontent.com/311857/103355232-a8facc80-4aa5-11eb-9781-b267f5889193.png"><img width="280" alt="thumbnail-nortia-dark" src="https://user-images.githubusercontent.com/311857/103355238-adbf8080-4aa5-11eb-8a84-6b130acae5af.png">
 
 ## What is it
 
