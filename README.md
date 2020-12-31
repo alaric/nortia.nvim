@@ -22,6 +22,20 @@ syntax highlighting. The colours picked are designed to be spread across the
 various hues, such that they are complementary to each other and of equal
 luminence.
 
+## Installing
+
+This requires [lush.nvim](https://github.com/rktjmp/lush.nvim) to be installed
+also, so with a plugin manager such as
+[vim-plug](https://github.com/junegunn/vim-plug) it should just be:
+
+```vim
+Plug 'rktjmp/lush.nvim'
+Plug 'alaric/nortia.nvim'
+
+
+color nortia-nvim
+```
+
 ## Light and Dark
 
 The colour scheme uses the same basic palette of colours for the syntax
