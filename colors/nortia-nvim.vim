@@ -27,9 +27,10 @@ lua << EOF
             package.loaded['lush_theme.nortia-nvim'] = nil
 
             -- pass our theme to lush to apply
-            require('lush')(require('lush_theme.nortia-nvim'))
+            local theme = require('lush_theme.nortia-nvim')
+            require('lush')(theme)
 
-            if vim.g.airline_theme ~= "" then
+            if vim.g.airline_theme ~= nil then
                 vim.call("airline#load_theme")
             end
 
@@ -39,6 +40,12 @@ lua << EOF
                 vim.api.nvim_exec("let $BAT_THEME = g:nortia_bat_light_theme", false)
             end
 
+            local lualine = require('lualine')
+            if lualine ~= nil then
+                -- TODO this will be replaced after https://github.com/hoob3rt/lualine.nvim/pull/6 is done
+                lualine.theme = 'gruvbox'
+                lualine.status()
+            end
         end
 
         -- setup re-call
