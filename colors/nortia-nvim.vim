@@ -42,8 +42,93 @@ lua << EOF
 
             local lualine = require('lualine')
             if lualine ~= nil then
-                -- TODO this will be replaced after https://github.com/hoob3rt/lualine.nvim/pull/6 is done
-                lualine.theme = 'gruvbox'
+                local nortiall = {  }
+                nortiall.normal = {
+                    a = {
+                        bg = theme.Palette1.fg.hex,
+                        fg = theme.Back1.bg.hex,
+                    },
+                    b = {
+                        bg = theme.Back4.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    },
+                    c = {
+                        bg = theme.Back2.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    }
+                }
+                nortiall.insert = {
+                    a = {
+                        bg = theme.Palette2.fg.hex,
+                        fg = theme.Back1.bg.hex,
+                    },
+                    b = {
+                        bg = theme.Back4.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    },
+                    c = {
+                        bg = theme.Back2.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    }
+                }
+                nortiall.visual = {
+                    a = {
+                        bg = theme.Palette3.fg.hex,
+                        fg = theme.Back1.bg.hex,
+                    },
+                    b = {
+                        bg = theme.Back4.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    },
+                    c = {
+                        bg = theme.Back2.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    }
+                }
+                nortiall.replace = {
+                    a = {
+                        bg = theme.Palette4.fg.hex,
+                        fg = theme.Back1.bg.hex,
+                    },
+                    b = {
+                        bg = theme.Back4.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    },
+                    c = {
+                        bg = theme.Back2.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    }
+                }
+                nortiall.command = {
+                    a = {
+                        bg = theme.Palette6.fg.hex,
+                        fg = theme.Back1.bg.hex,
+                    },
+                    b = {
+                        bg = theme.Back4.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    },
+                    c = {
+                        bg = theme.Back2.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    }
+                }
+                nortiall.terminal = nortiall.normal
+                nortiall.inactive = {
+                    a = {
+                        bg = theme.Back2.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    },
+                    b = {
+                        bg = theme.Back2.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    },
+                    c = {
+                        bg = theme.Back2.bg.hex,
+                        fg = theme.Fore4.fg.hex,
+                    },
+                }
+                lualine.theme = nortiall
                 lualine.status()
             end
         end
