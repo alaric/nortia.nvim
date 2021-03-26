@@ -40,8 +40,8 @@ lua << EOF
                 vim.api.nvim_exec("let $BAT_THEME = g:nortia_bat_light_theme", false)
             end
 
-            local lualine = require('lualine')
-            if lualine ~= nil then
+            local has_lualine, lualinehi = pcall(require, 'lualine.highlight')
+            if has_lualine then
                 local nortiall = {  }
                 nortiall.normal = {
                     a = {
@@ -128,8 +128,7 @@ lua << EOF
                         fg = theme.Fore4.fg.hex,
                     },
                 }
-                lualine.theme = nortiall
-                lualine.status()
+                lualinehi.create_highlight_groups(nortiall)
             end
         end
 
