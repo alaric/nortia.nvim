@@ -45,6 +45,10 @@ function bad(colour)
     return colour.hue(0).saturate(30)
 end
 
+function bad_soft(colour)
+    return colour.hue(0).saturate(10)
+end
+
 function warn(colour)
     return colour.hue(30).saturate(30)
 end
@@ -58,6 +62,7 @@ local bg_colour = bg_colour
 local fg_colour = fg_colour
 local good = good
 local bad = bad
+local bad_soft = bad_soft
 local warn = warn
 local neutral = neutral
 local base = base
@@ -213,10 +218,43 @@ local theme = lush(function()
     LspDiagnosticsDefaultError               { fg = Bad.fg, bg = Bad.bg }, -- used for "Error" diagnostic virtual text
     LspDiagnosticsDefaultWarning             { fg = Warn.fg, bg = Warn.bg }, -- used for "Warning" diagnostic virtual text
     LspDiagnosticsDefaultInformation         { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Information" diagnostic virtual text
-    -- LspDiagnosticsDefaultHint                { }, -- used for "Hint" diagnostic virtual text
-    -- LspReferenceText                  { }, -- used for highlighting "text" references
-    -- LspReferenceRead                  { }, -- used for highlighting "read" references
-    -- LspReferenceWrite                 { }, -- used for highlighting "write" references
+    LspDiagnosticsDefaultHint                { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Hint" diagnostic virtual text
+
+    -- Custom for linehl if you want to customise the LSP sign for that
+    LspDiagnosticsLineError { bg = bad_soft(Back1.bg) },
+
+    -- For the TodoComment plugin it generates highlighting themes itself
+    -- and they get cleared by the nortia reset. This matches the default set
+    -- from the plugin and provides our own highlights
+    --
+    -- TODO it'd be nice in the future to have these generated from the closest
+    -- Palette to a particular red or orange etc
+    --
+    -- The TODO colouring is the only specialised one here as the higlighter
+    -- tone is only good when setting both fg and bg
+    TodoBgTODO { fg = Fore1.bg, bg = Highlighter.bg, gui = "bold" },
+    TodoFgTODO { fg = Neutral.fg },
+    TodoSignTODO { fg = Neutral.fg, bg = Back2.fg },
+
+    TodoBgFIX { fg = Back1.bg, bg = Palette4.fg, gui = "bold" },
+    TodoFgFIX { fg = Palette4.fg },
+    TodoSignFIX { fg = Palette4.fg, bg = Back2.bg },
+
+    TodoBgWARN { fg = Back1.bg, bg = Palette2.fg, gui = "bold" },
+    TodoFgWARN { fg = Palette2.fg  },
+    TodoSignWARN { fg = Palette2.fg, bg = Back2.bg },
+
+    TodoBgHACK { fg = Back1.bg, bg = Palette2.fg, gui = "bold" },
+    TodoFgHACK { fg = Palette2.fg  },
+    TodoSignHACK { fg = Palette2.fg, bg = Back2.bg },
+
+    TodoBgPERF { fg = Back1.bg, bg = Neutral.fg, gui = "bold" },
+    TodoFgPERF { fg = Neutral.fg  },
+    TodoSignPERF { fg = Neutral.fg, bg = Back2.bg },
+
+    TodoBgNOTE { fg = Back1.bg, bg = Palette6.fg, gui = "bold" },
+    TodoFgNOTE { fg = Palette6.fg  },
+    TodoSignNOTE { fg = Palette6.fg, bg = Back2.bg },
 
     -- These groups are for the neovim tree-sitter highlights.
     -- As of writing, tree-sitter support is a WIP, group names may change.
