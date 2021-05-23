@@ -319,6 +319,8 @@ local theme = lush(function()
     GitGutterDelete { fg = Bad.fg, bg = Bad.bg },
     GitGutterChange { fg = Neutral.fg, bg = Neutral.bg },
 
+    lualine_x_diagnostics_warn_normal { fg = Warn.fg, bg = Warn.bg },
+    lualine_x_diagnostics_error_normal { fg = Bad.fg, bg = Bad.bg },
   }
 end)
 
