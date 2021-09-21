@@ -35,9 +35,9 @@ lua << EOF
             end
 
             if nortia.is_dark() then
-                vim.api.nvim_exec("let $BAT_THEME = g:nortia_bat_dark_theme", false)
+                vim.api.nvim_exec("let $BAT_THEME = get(g:, 'nortia_bat_dark_theme', '')", false)
             else
-                vim.api.nvim_exec("let $BAT_THEME = g:nortia_bat_light_theme", false)
+                vim.api.nvim_exec("let $BAT_THEME = get(g:, 'nortia_bat_light_theme', '')", false)
             end
 
             local has_lualine, lualinehi = pcall(require, 'lualine.highlight')
