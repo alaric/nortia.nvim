@@ -220,8 +220,14 @@ local theme = lush(function()
     LspDiagnosticsDefaultInformation         { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Information" diagnostic virtual text
     LspDiagnosticsDefaultHint                { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Hint" diagnostic virtual text
 
+    DiagnosticError               { fg = Bad.fg, bg = Bad.bg }, -- used for "Error" diagnostic virtual text
+    DiagnosticWarn             { fg = Warn.fg, bg = Warn.bg }, -- used for "Warning" diagnostic virtual text
+    DiagnosticInfo         { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Information" diagnostic virtual text
+    DiagnosticHint                { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Hint" diagnostic virtual text
+
     -- Custom for linehl if you want to customise the LSP sign for that
     LspDiagnosticsLineError { bg = bad_soft(Back1.bg) },
+    DiagnosticLineError { bg = bad_soft(Back1.bg) },
 
     -- For the TodoComment plugin it generates highlighting themes itself
     -- and they get cleared by the nortia reset. This matches the default set
