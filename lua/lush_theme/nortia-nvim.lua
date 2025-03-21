@@ -220,6 +220,11 @@ local theme = lush(function()
     LspDiagnosticsDefaultInformation         { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Information" diagnostic virtual text
     LspDiagnosticsDefaultHint                { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Hint" diagnostic virtual text
 
+    LspDiagnosticsVirtualTextError               { fg = Bad.fg, bg = Bad.bg }, -- used for "Error" diagnostic virtual text
+    LspDiagnosticsVirtualTextWarning             { fg = Warn.fg, bg = Warn.bg }, -- used for "Warning" diagnostic virtual text
+    LspDiagnosticsVirtualTextInformation         { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Information" diagnostic virtual text
+    LspDiagnosticsVirtualTextHint                { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Hint" diagnostic virtual text
+
     DiagnosticError               { fg = Bad.fg, bg = Bad.bg }, -- used for "Error" diagnostic virtual text
     DiagnosticWarn             { fg = Warn.fg, bg = Warn.bg }, -- used for "Warning" diagnostic virtual text
     DiagnosticInfo         { fg = Neutral.fg, bg = Neutral.bg }, -- used for "Information" diagnostic virtual text
@@ -228,6 +233,8 @@ local theme = lush(function()
     -- Custom for linehl if you want to customise the LSP sign for that
     LspDiagnosticsLineError { bg = bad_soft(Back1.bg) },
     DiagnosticLineError { bg = bad_soft(Back1.bg) },
+
+    CratesNvimVersion = { fg = Good.fg, bg = Good.bg }, 
 
     -- For the TodoComment plugin it generates highlighting themes itself
     -- and they get cleared by the nortia reset. This matches the default set
@@ -321,6 +328,23 @@ local theme = lush(function()
 
     lualine_x_diagnostics_warn_normal { fg = Warn.fg, bg = Warn.bg },
     lualine_x_diagnostics_error_normal { fg = Bad.fg, bg = Bad.bg },
+
+    CratesNvimLoading = { fg = Neutral.fg, bg = Neutral.bg },
+    CratesNvimPreRelease = { fg = Warn.fg, bg = Warn.bg },
+    CratesNvimYanked = { fg = Bad.fg, bg = Bad.bg },
+    CratesNvimNoMatch = {},
+    CratesNvimUpgrade = { fg = Warn.fg, bg = Warn.bg },
+    CratesNvimError = { fg = Bad.fg, bg = Bad.bg },
+
+    CratesNvimPopupTitle = { gui = "bold" },
+    -- versions
+    CratesNvimPopupVersion = {},
+    CratesNvimPopupPreRelease = {},
+    CratesNvimPopupYanked = {},
+    -- features
+    CratesNvimPopupFeature = {},
+    CratesNvimPopupEnabled = {},
+    CratesNvimPopupTransitive = {},
   }
 end)
 
